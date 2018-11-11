@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>jjg-HTTP-api-assignment-complete-pt2</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+	<script type="text/babel">
+		const handleError = (res) => {
+			if (res.responseJSON) {
+				$('#output-status').html(res.responseJSON.id);
+				$('#output-message').html(res.responseJSON.message);
+			} else {
+				$('#output-status').html('Resource Not Found');
+				$('#output-message').html('');
+			}
+		}
+
+		$('#nameForm').submit((event) => {
+			event.preventDefault();
+			$.ajax({
+				method: 'POST',
+				url: '/addUser',
+				data: JSON.stringify({
+					'name': $('#nameField').val(),
+					'age': $('#ageField').val()
+				}),
+				statusCode: {
+					204: () => {
+						$('#output-status').html('Updated User');
+						$('#output-message').html('the user was successfully updated');
+					}
+				},
+				success: (res) => {
+					if (typeof res !== 'undefined') {
+						$('#output-status').html(res.id);
+						$('#output-message').html(res.message);
+					} else {
+						$('#output-status').html('Operantion successful');
+						$('#output-message').html('The performed operation was successful');
+					}
+				},
+				error: (res) => {
+					handleError(res);
+				}
+			});
+		});
+
+		$('#userForm').submit((event) => {
+			event.preventDefault();
+			const page = $('#urlField').val();
+			$.ajax({
+				method: $('#methodSelect').val(),
+				url:`/${page}`,
+				success: (res) => { 
+					$('#output-status').html('Success');
+					if (typeof res !== 'undefined') {
+						$('#output-message').html(res);
+					} else {
+						$('#output-message').html('');
+					}
+				},
+				error: (res) => {
+					handleError(res);
+				}
+			});
+		});
+
+	</script>
+</head>
+<body>
+  <section id="top">
+    <h3>POST Status Code Tests</h3>
+    <form id="nameForm">
+      <label for="name">Name: </label>
+      <input id="nameField" type="text" />
+      <label for="age">Age: </label>
+      <input id="ageField" type="number" min="0" max="100" step="1"/>
+      <input type="submit" value="Add User" />
+    </form>
+    <form id="userForm" action="/getUsers" method="get">
+      <select id='urlField'>
+        <option value='getUsers'>/getUsers</option>
+        <option value='notReal'>/notReal</option>
+      </select>
+      <select id="methodSelect">
+        <option value="get">GET</option>
+        <option value="head">HEAD</option>
+      </select>
+      <input type="submit" value="Get User" />
+    </form>
+  </section>
+  <section id="content">
+  	<div id="output-status">
+  	</div>
+  	<div id="output-message">
+  	</div>
+  </section>
+</body>
+</html>

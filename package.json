@@ -1,0 +1,29 @@
+{
+  "name": "igme.430.http-api-assignment-pt2",
+  "version": "1.0.0",
+  "description": "simple API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"tests complete\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spacegf/http-api-assignment-pt2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spacegf/http-api-assignment-pt2/issues"
+  },
+  "homepage": "https://github.com/spacegf/http-api-assignment-pt2#readme",
+  "devDependencies": {
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  },
+  "dependencies": {
+    "xml": "^1.0.1"
+  }
+}
